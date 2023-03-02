@@ -13,19 +13,33 @@ pipeline {
     stages {
        stage("Git Checkout"){
            when {
+               expression{
               params.branchName == "develop"
            }
+         }
           steps {
            git branch: "${params.branchName}", credentialsId: 'github', url: 'https://github.com/yohanbhogadi/hr-api'
                 }
         }
         
         stage('Maven Build') {
+                when {
+                expression{
+                    params.branchName == "develop"
+                }
+           }
             steps {
                 sh 'mvn clean package'
+                
             }
         }
+        
         stage("Dev Deploy"){
+            when {
+                expression{
+                    params.branchName == "develop"
+                }
+            }
         steps{
           sshagent(['tomcat-dev']) {
              // copy warfile onto tomcat server
