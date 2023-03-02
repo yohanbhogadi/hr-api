@@ -13,7 +13,7 @@ pipeline {
     stages {
        stage("Git Checkout"){
             steps {
-           git branch: 'main'"${params.branchName}", credentialsId: 'github', url: 'https://github.com/yohanbhogadi/hr-api'
+           git branch: "${params.branchName}", credentialsId: 'github', url: 'https://github.com/yohanbhogadi/hr-api'
                 }
         }
         
