@@ -12,7 +12,10 @@ pipeline {
 
     stages {
        stage("Git Checkout"){
-            steps {
+           when {
+              params.branchName == "develop"
+           }
+          steps {
            git branch: "${params.branchName}", credentialsId: 'github', url: 'https://github.com/yohanbhogadi/hr-api'
                 }
         }
