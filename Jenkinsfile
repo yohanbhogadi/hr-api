@@ -1,12 +1,22 @@
 pipeline {
+    
     agent any
 
     environment {
   TOMCAT_DEV = "172.31.42.127"
   TOMCAT_USER = "ec2-user"
 }
+    parameters {
+  string defaultValue: 'main', description: 'Chose branch to build and deploy', name: 'branchName'
+}
+
     stages {
-       
+       stage("Git Checkout"){
+            steps {
+           git branch: 'main'"${params.branchName}", credentialsId: 'github', url: 'https://github.com/yohanbhogadi/hr-api'
+                }
+        }
+        
         stage('Maven Build') {
             steps {
                 sh 'mvn clean package'
